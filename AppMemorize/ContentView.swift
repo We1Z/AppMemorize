@@ -9,20 +9,24 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    
+    let emojis = ["🚔","🚍","🚘","🚖","🚡"] // array of string called emojis a local variable
+    
     var body: some View {
         HStack{
-            CardView(isFaceUp: true)
-            CardView()
-            CardView()
-            CardView()
+            ForEach(emojis.indices, id: \.self){ index in
+                CardView(content: emojis[index])
+            }
         }
         .foregroundColor(.purple)
         .padding()
     }
 }
 
+// View themselves are immutable
 struct CardView: View {
-    @State var isFaceUp = false
+    let content: String
+    @State var isFaceUp = false // @State Pointer to isFaceUp
     
     var body: some View {
         ZStack {
@@ -30,7 +34,7 @@ struct CardView: View {
             if isFaceUp {
                 base.fill(.white)
                 base.strokeBorder(lineWidth: 2)
-                Text("🚗").font(.largeTitle)
+                Text(content).font(.largeTitle)
             } else {
                 base.fill()
                 
